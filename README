@@ -1,0 +1,7 @@
+https://www.elastic.co/guide/en/elasticsearch/reference/current/configuring-tls-docker.html
+
+1. Modify : config/.env
+2. Run : 
+cd config 
+docker-compose -f create-certs.yml up
+3. Run : docker-compose up -d 
