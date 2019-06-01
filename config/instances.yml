@@ -1,6 +1,7 @@
 instances:
   - name: es01
     dns:
+      - es01.blockshain.com 
       - es01 
       - localhost
     ip:
@@ -8,6 +9,7 @@ instances:
 
   - name: es02
     dns:
+      - es02.blockshain.com 
       - es02
       - localhost
     ip:
@@ -15,6 +17,7 @@ instances:
 
   - name: kibana
     dns:
+      - kibana.blockshain.com 
       - kibana
       - localhost
     ip:
