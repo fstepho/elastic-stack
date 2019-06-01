@@ -7,7 +7,6 @@ services:
       - node.name=es01
       - discovery.seed_hosts=es02
       - cluster.initial_master_nodes=es01,es02
-      - network.publish_host=es01.blockshain.com
       - cluster.name=blockshain-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -31,8 +30,8 @@ services:
         soft: 65536
         hard: 65536
     volumes: ['esdata01:/usr/share/elasticsearch/data', './config/certs:$CERTS_DIR']
-#    ports:
-#      - 9201:9200
+    ports:
+      - 9201:9200
     networks:
       - esnet
       - web
@@ -78,8 +77,8 @@ services:
         soft: 65536
         hard: 65536
     volumes: ['esdata02:/usr/share/elasticsearch/data', './config/certs:$CERTS_DIR']
-#    ports:
-#      - 9202:9200
+    ports:
+      - 9202:9200
     networks:
       - esnet
     restart: always
