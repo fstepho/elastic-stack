@@ -30,6 +30,7 @@ services:
  #     - 9201:9200
     networks:
       - esnet
+      - web
     restart: always
     healthcheck:
       test: curl --cacert $CERTS_DIR/ca/ca.crt -s http://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
@@ -37,7 +38,11 @@ services:
       timeout: 10s
       retries: 5
     labels:
-      - "traefik.enable=false"
+      - "traefik.backend=es01"
+      - "traefik.port=9200"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=Host:es01.blockshain.com"
+      - "traefik.frontend.entryPoints=http"
 
   es02:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.1.1
@@ -77,7 +82,7 @@ services:
     image: docker.elastic.co/kibana/kibana:7.1.1
     container_name: kibana
     environment:
-      - ELASTICSEARCH_HOSTS=http://es01:9200
+      - ELASTICSEARCH_HOSTS=http://es01.blockshain.com
       - ELASTICSEARCH_USERNAME=$ELASTIC_USERNAME
       - ELASTICSEARCH_PASSWORD=$ELASTIC_PASSWORD
       - ELASTICSEARCH_SSL_KEY=/usr/share/kibana/config/certs/kibana/kibana.key
@@ -98,7 +103,7 @@ services:
       - "traefik.port=5601"
       - "traefik.docker.network=web"
       - "traefik.frontend.rule=Host:kibana.blockshain.com"
-
+      - "traefik.frontend.redirect.entryPoint=https"
 volumes:
   esdata01:
     driver: local
